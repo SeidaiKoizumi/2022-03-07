@@ -15,12 +15,16 @@ Amplify.configure(awsExports);
   const { register, handleSubmit, watch, getValues} = useForm()
   const [data, setData] = useState("");
 
-  const [handle, setHandle] = useState("")
+  //const [handle, setHandle] = useState("")
   const [mode, setMode] = useState("new");
   const [editData, setEditData] = useState([])
   const [dynamoData, setDynamoData] = useState([])
 
   const [nameV, setNameV] = useState("")
+  const [sexV, setSexV] = useState("")
+  const [hobbyV, setHobbyV] = useState("")
+  const [aboutYouV, setAboutYouV] = useState("")
+  const [happinessV, setHappinessV] = useState("")
   
   
   var date = moment()
@@ -52,6 +56,11 @@ Amplify.configure(awsExports);
       
       console.log("edit")
       setNameV(editData.name)
+      setSexV(editData.sex)
+      setHobbyV(editData.hobby)
+      setAboutYouV(editData.text)
+      setHappinessV(editData.work)
+      console.log(editData.work)
     }
     else{
       console.log("new")
@@ -100,9 +109,24 @@ Amplify.configure(awsExports);
   }
 
   const handleChange = (event) => {
-    //console.log(event.target.name)
+    console.log(event.target.name)
     console.log(event.target.value)
-    setHandle(event.target.value)
+    if (event.target.name == "Name") {
+      setNameV(() => event.target.value)
+    }
+    else if (event.target.name == "sex") {
+      setSexV(() => event.target.value)
+    }
+    else if (event.target.name == "hobby") {
+      setHobbyV(() => event.target.value)
+    }
+    else if (event.target.name == "aboutYou") {
+      setAboutYouV(() => event.target.value)
+    }
+    else if (event.target.name == "Happiness") {
+      setHappinessV(() => event.target.value)
+    }
+    
     
   }
 
@@ -169,61 +193,46 @@ Amplify.configure(awsExports);
     <form onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
       <Header />
       <p>名前</p>
-      <input {...register("Name")} placeholder="name" />
+      <input {...register("Name")} placeholder="name" value={nameV} onChange={handleChange}/>
       <p>性別</p>
-      <select {...register("sex")}>
+      <select {...register("sex")} value={sexV} onChange={handleChange}>
         <option value="">Select...</option>
         <option value="A">男性</option>
         <option value="B">女性</option>
       </select>
       <p>趣味</p>
-      <select {...register("hobby")}>
+      <select {...register("hobby")} value={hobbyV} onChange={handleChange}>
         <option value="">Select...</option>
         <option value="A">スポーツ・運動</option>
         <option value="B">音楽</option>
         <option value="C">ゲーム</option>
       </select>
       <p>あなたが幸せと感じる瞬間を教えてください。</p>
-      <textarea {...register("aboutYou")} placeholder="About you" />
+      <textarea {...register("aboutYou")} placeholder="About you" value={aboutYouV} onChange={handleChange}/>
       <p>仕事は楽しいですか？</p>
       <p>
-      <label class = "radio"><input class = "radio" {...register("Happiness", { required: true })} type="radio" value="1" />YES</label>
-      <label class = "radio"><input class = "radio" {...register("Happiness", { required: true })} type="radio" value="2" />NO</label>
+      <label class = "radio">
+        <input class = "radio" {...register("Happiness", { required: true })} 
+          type="radio" value={happinessV} onChange={handleChange}/>YES
+      </label>
+      <label class = "radio">
+        <input class = "radio" {...register("Happiness", { required: true })}
+          type="radio" value={happinessV} onChange={handleChange} />NO
+      </label>
       </p>
       
       {
-        mode === "new" ?  <button onClick={handleClick}>送信</button>
-          : <button onClick={updateNote}>更新</button>
+        mode === "new" ?  <button type="button" onClick={handleClick}>送信</button>
+          : <button type="button" onClick={updateNote}>更新</button>
       }
+      <hr/>
+      <div>
+        <button onClick={() => {fetchNotes()}}>データ読み込み</button>
+        <button onClick={fetchNotesToday}>今日のデータ</button>
+        <button onClick={fetchNotesYesterday}>昨日のデータ</button>
+      </div>
       
       
-      <p>{data[1]}</p>
-      <p></p>
-      <button
-        type="button"
-        onClick={() => {
-          const values = getValues(); // { test: "test-input", test1: "test1-input" }
-          const singleValue = getValues("Name"); // "test-input"
-          // ["test-input", "test1-input"]
-        }}
-      >
-        Get Values
-      </button>
-
-      <p>入力したデータ</p>
-      <p>{data}</p>
-
-      <p className="Name-text">名前: {getValues('Name')}</p>
-      <p className="sex-text">性別: {getValues('sex')}</p>
-      <p className="hobby-text">趣味: {getValues('hobby')}</p>
-      <p className="aboutYou-text">幸せ: {getValues('aboutYou')}</p>
-      <p className="Happiness-text">仕事: {getValues('Happiness')}</p>
-
-    
-
-      <button onClick={() => {fetchNotes()}}>データ読み込み</button>
-      <button onClick={fetchNotesToday}>今日のデータ</button>
-      <button onClick={fetchNotesYesterday}>昨日のデータ</button>
 
       <div>
         {dynamoData.map((dynamo) => (
@@ -266,3 +275,23 @@ Amplify.configure(awsExports);
 } */
 
 // <button onClick={handleClick}>送信</button>
+
+/* <button
+        type="button"
+        onClick={() => {
+          const values = getValues(); // { test: "test-input", test1: "test1-input" }
+          const singleValue = getValues("Name"); // "test-input"
+          // ["test-input", "test1-input"]
+        }}
+      >
+        Get Values
+      </button>
+
+      <p>入力したデータ</p>
+      <p>{data}</p>
+
+      <p className="Name-text">名前: {getValues('Name')}</p>
+      <p className="sex-text">性別: {getValues('sex')}</p>
+      <p className="hobby-text">趣味: {getValues('hobby')}</p>
+      <p className="aboutYou-text">幸せ: {getValues('aboutYou')}</p>
+      <p className="Happiness-text">仕事: {getValues('Happiness')}</p> */
