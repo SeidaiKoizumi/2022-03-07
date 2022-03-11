@@ -33,12 +33,15 @@ const Page8 = (props) => {
             <Likert {...likertOptions} ref={likertRef} />
         </div>
     
+        
         <div class = "question">
-          
             <p>あなたが幸せに感じる瞬間とはどのようなときですか？</p>
             <textarea  placeholder="About you" onChange={handleChange}/>
+        
+
+          <img src="https://s3.ap-northeast-1.amazonaws.com/image.png/%E7%82%B9%E3%80%858.svg" alt="画像の解説文" />
+
         </div>
-        <img src="https://s3.ap-northeast-1.amazonaws.com/image.png/%E7%82%B9%E3%80%858.svg" alt="画像の解説文" />
     </div>
     
   );

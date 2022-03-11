@@ -4,10 +4,44 @@ input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONL
 
 type Todo @model {
   id: ID!
-  name: String!
-  sex: String!
-  hobby: String!
-  text: String!
-  work: Int
-  registration: String
+  p1_1: String!
+  p1_2: String!
+  p1_3: String!
+  p2: String!
+  q3_1: Boolean!
+  q3_2: Boolean!
+  q3_3: Boolean!
+  q3_4: Boolean!
+  q3_5: Boolean!
+  q3_6: Boolean!
+  q4: String!
+  q5_1: Boolean!
+  q5_2: Boolean!
+  q5_3: Boolean!
+  q5_4: Boolean!
+  q5_5: Boolean!
+  q5_6: Boolean!
+  q5_7: Boolean!
+  q5_8: Boolean!
+  q5_9: Boolean!
+  q5_10: Boolean!
+  q6: String!
+  q7_1: Int!
+  q7_2: Int!
+  q7_3: Int!
+  q7_4: Int!
+  q7_5: Int!
+  q7_6: Int!
+  q7_7: Int!
+  q7_8: Int!
+  q7_9: Int!
+  q7_10: Int!
+  q7_11: Int!
+  q7_12: Int!
+  q7_13: Int!
+  q7_14: Int!
+  q7_15: Int!
+  q7_16: Int!
+  q8_1: Int!
+  q8_2: String!
 }
