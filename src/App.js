@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Header from "./Header";
 import awsExports from './aws-exports';
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo} from "./graphql/mutations";
+import { createTodo} from "./graphql/mutations";
 import { listTodos } from "./graphql/queries";
 import moment from 'moment';
 import { BrowserRouter, Route,Link } from 'react-router-dom';
@@ -72,13 +72,14 @@ export function App() {
   const [p7Data15, setP7Data15] = useState(0);
   const [p7Data16, setP7Data16] = useState(0);
   const [p8Data1, setP8Data1] = useState(0);
-  const [p8Data2, setP8Data2] = useState(0);
+  const [p8Data2, setP8Data2] = useState("");
   
-  const [p3Select,setP3Select] = useState(0);
+  const [p1Select,setP1Select] = useState("");
+  const [p3Select,setP3Select] = useState("");
   const [p5Select,setP5Select] = useState("");
 
-  
-  
+  const [p3Array,setP3Array] = useState([]);
+  const [p5Array,setP5Array] = useState([]);
 
   const [status, setStatus] = useState(1)
   
@@ -159,37 +160,53 @@ export function App() {
         <Header />
           <body>
           {
-            status == 1 ? <Page1 setP1Data1 = {setP1Data1} setP1Data2 = {setP1Data2} setP1Data3 = {setP1Data3}/> : 
-            status == 2 ? <Page2 setP2Data = {setP2Data}/> : 
-            status == 3 ? <Page3 setP3Select = {setP3Select}
-              setP3Data1 = {setP3Data1}
-              setP3Data2 = {setP3Data2} 
-              setP3Data3 = {setP3Data3} 
-              setP3Data4 = {setP3Data4} 
-              setP3Data5 = {setP3Data5} 
-              setP3Data6 = {setP3Data6} /> : 
-            status == 4 ? <Page4 setP4Data = {setP4Data} p3Select = {p3Select}/> : 
+            status == 1 ? <Page1 setP1Select = {setP1Select} 
+              p1Data1 = {p1Data1} setP1Data1 = {setP1Data1} 
+              p1Data2 = {p1Data2} setP1Data2 = {setP1Data2} 
+              p1Data3 = {p1Data3} setP1Data3 = {setP1Data3}/> : 
+            status == 2 ? <Page2 p2Data = {p2Data} setP2Data = {setP2Data} p1Select = {p1Select}/> : 
+            status == 3 ? <Page3 p3Select = {p3Select} setP3Select = {setP3Select}
+              p3Array = {p3Array} setP3Array = {setP3Array}
+              p3Data1 = {p3Data1} setP3Data1 = {setP3Data1}
+              p3Data2 = {p3Data2} setP3Data2 = {setP3Data2} 
+              p3Data3 = {p3Data3} setP3Data3 = {setP3Data3} 
+              p3Data4 = {p3Data4} setP3Data4 = {setP3Data4} 
+              p3Data5 = {p3Data5} setP3Data5 = {setP3Data5} 
+              p3Data6 = {p3Data6} setP3Data6 = {setP3Data6} /> : 
+            status == 4 ? <Page4 p4Data = {p4Data} setP4Data = {setP4Data} p3Select = {p3Select}/> : 
             status == 5 ? <Page5 setP5Select = {setP5Select}
-              setP5Data1 = {setP5Data1}
-              setP5Data2 = {setP5Data2} 
-              setP5Data3 = {setP5Data3} 
-              setP5Data4 = {setP5Data4} 
-              setP5Data5 = {setP5Data5} 
-              setP5Data6 = {setP5Data6} 
-              setP5Data7 = {setP5Data7}
-              setP5Data8 = {setP5Data8}
-              setP5Data9 = {setP5Data9}
-              setP5Data10 = {setP5Data10}/> : 
-            status == 6 ? <Page6 setP6Data = {setP6Data} p5Select = {p5Select}/> :  
-            status == 7 ? <Page7 setP7Data1 = {setP7Data1} setP7Data2 = {setP7Data2} setP7Data3 = {setP7Data3}
-              setP7Data4 = {setP7Data4} setP7Data5 = {setP7Data5} setP7Data6 = {setP7Data6} setP7Data7 = {setP7Data7}
-              setP7Data8 = {setP7Data8} setP7Data9 = {setP7Data9} setP7Data10 = {setP7Data10} 
-              setP7Data11 = {setP7Data11} setP7Data12 = {setP7Data12} setP7Data13 = {setP7Data13}
-              setP7Data14 = {setP7Data14} setP7Data15 = {setP7Data15} setP7Data16 = {setP7Data16}/> : 
-            status == 8 ? <Page8 setP8Data1 = {setP8Data1} setP8Data2 = {setP8Data2}/> : 
+              p5Array = {p5Array} setP5Array = {setP5Array}
+              p5Data1 = {p5Data1} setP5Data1 = {setP5Data1}
+              p5Data2 = {p5Data2} setP5Data2 = {setP5Data2} 
+              p5Data3 = {p5Data3} setP5Data3 = {setP5Data3} 
+              p5Data4 = {p5Data4} setP5Data4 = {setP5Data4} 
+              p5Data5 = {p5Data5} setP5Data5 = {setP5Data5} 
+              p5Data6 = {p5Data6} setP5Data6 = {setP5Data6} 
+              p5Data7 = {p5Data7} setP5Data7 = {setP5Data7}
+              p5Data8 = {p5Data8} setP5Data8 = {setP5Data8}
+              p5Data9 = {p5Data9} setP5Data9 = {setP5Data9}
+              p5Data10 = {p5Data10} setP5Data10 = {setP5Data10}/> : 
+            status == 6 ? <Page6 p6Data = {p6Data} setP6Data = {setP6Data} p5Select = {p5Select}/> :  
+            status == 7 ? <Page7 p7Data1 = {p7Data1} setP7Data1 = {setP7Data1} 
+              p7Data2 = {p7Data2} setP7Data2 = {setP7Data2} 
+              p7Data3 = {p7Data3} setP7Data3 = {setP7Data3}
+              p7Data4 = {p7Data4} setP7Data4 = {setP7Data4} 
+              p7Data5 = {p7Data5} setP7Data5 = {setP7Data5} 
+              p7Data6 = {p7Data6} setP7Data6 = {setP7Data6} 
+              p7Data7 = {p7Data7} setP7Data7 = {setP7Data7}
+              p7Data8 = {p7Data8} setP7Data8 = {setP7Data8} 
+              p7Data9 = {p7Data9} setP7Data9 = {setP7Data9} 
+              p7Data10 = {p7Data10} setP7Data10 = {setP7Data10} 
+              p7Data11 = {p7Data11} setP7Data11 = {setP7Data11} 
+              p7Data12 = {p7Data12} setP7Data12 = {setP7Data12} 
+              p7Data13 = {p7Data13} setP7Data13 = {setP7Data13}
+              p7Data14 = {p7Data14} setP7Data14 = {setP7Data14} 
+              p7Data15 = {p7Data15} setP7Data15 = {setP7Data15} 
+              p7Data16 = {p7Data16} setP7Data16 = {setP7Data16}/> : 
+            status == 8 ? <Page8 p8Data1 = {p8Data1} setP8Data1 = {setP8Data1} 
+              p8Data2 = {p8Data2} setP8Data2 = {setP8Data2}/> : 
             status == 9 ? <Finish /> : ""
           }
-     
             <div class="box">
             {
               status != 9 ? <button class="box_imageRight"  onClick={handleClickNext}><img src="https://s3.ap-northeast-1.amazonaws.com/image.png/arrow.svg" height ="50" width="100" /></button> : ""
