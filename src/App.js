@@ -6,9 +6,8 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import { createTodo} from "./graphql/mutations";
 import { listTodos } from "./graphql/queries";
 import moment from 'moment';
-import { BrowserRouter, Route,Link } from 'react-router-dom';
-import { Grid, IconButton } from '@material-ui/core';
-import {ArrowForward, ArrowBack }from '@material-ui/icons';
+
+
 import {Page1} from "./Component/page1";
 import {Page2} from "./Component/page2";
 import {Page3} from "./Component/page3";
@@ -33,9 +32,9 @@ export function App() {
 
   //const [likertData1, setLikertData1] = useState("");
 
-  const [p1Data1, setP1Data1] = useState("");
-  const [p1Data2, setP1Data2] = useState("");
-  const [p1Data3, setP1Data3] = useState("");
+  const [p1Data1, setP1Data1] = useState(0);
+  const [p1Data2, setP1Data2] = useState(0);
+  const [p1Data3, setP1Data3] = useState(0);
   const [p2Data, setP2Data] = useState("");
   const [p3Data1, setP3Data1] = useState(false);
   const [p3Data2, setP3Data2] = useState(false);
@@ -96,8 +95,60 @@ export function App() {
 
   
   const handleClickNext = () => {
-    //addNote(data);
+
+    if(status == 1) {
+      if(p1Data1 == 0 || p1Data2 == 0 || p1Data3 == 0) {
+        return ""
+      }
+    }
+
+    if(status == 2 && p2Data == "") {
+      return ""
+    }
+
+    if(status == 3 && p3Data1 == false && p3Data2 == false && p3Data3 == false && p3Data4 == false 
+      && p3Data5 == false && p3Data6 == false ) {
+      alert('最低１つは選択してください!');
+      return ""
+    }
+
+    if(status == 4 && p4Data == "") {
+      return ""
+    }
+
+    if(status == 5 && p5Data1 == false && p5Data2 == false && p5Data3 == false && p5Data4 == false 
+      && p5Data5 == false && p5Data6 == false && p5Data7 == false && p5Data8 == false 
+      && p5Data9 == false && p5Data10 == false) {
+      alert('最低１つは選択してください!');
+      return ""
+    }
+
+    if(status == 6 && p6Data == "") {
+      return ""
+    }
+
+    if(status == 7 ) {
+      if( p7Data1 == 0 || p7Data2 == 0 || p7Data3 == 0 || p7Data4 == 0 
+        || p7Data5 == 0 || p7Data6 == 0 || p7Data7 == 0 || p7Data8 == 0
+        || p7Data9 == 0 || p7Data10 == 0 || p7Data11 == 0 || p7Data12 == 0
+        || p7Data13 == 0 || p7Data14 == 0 || p7Data15 == 0 || p7Data16 == 0) {
+        alert('回答していない質問があります!');
+        return ""
+      }
+    }
+      
+    if(status == 8 ) {
+      if(p8Data1 == 0){
+        alert('回答していない質問があります!!');
+        return ""
+      }
+      if(p8Data2 == "") {
+        return ""
+      }
+    }
+
     setStatus(status + 1);
+    //addNote(data);
   }
 
   const handleClickBack = () => {
@@ -106,59 +157,67 @@ export function App() {
 
   }
 
+  var date = moment()
+  var today = date.format('YYYY-MM-DD');
+
   const addNote = async () => {
     console.log("送信します")
     await API.graphql(graphqlOperation(createTodo, { 
       input:{
-        p1_1: p1Data1,
-        p1_2: p1Data2,
-        p1_3: p1Data3,
-        p2: p2Data,
-        q3_1: p3Data1,
-        q3_2: p3Data2,
-        q3_3: p3Data3,
-        q3_4: p3Data4,
-        q3_5: p3Data5,
-        q3_6: p3Data6,
-        q4: p4Data,
-        q5_1: p5Data1,
-        q5_2: p5Data2,
-        q5_3: p5Data3,
-        q5_4: p5Data4,
-        q5_5: p5Data5,
-        q5_6: p5Data6,
-        q5_7: p5Data7,
-        q5_8: p5Data8,
-        q5_9: p5Data9,
-        q5_10: p5Data10,
-        q6: p6Data,
-        q7_1: p7Data1,
-        q7_2: p7Data2,
-        q7_3: p7Data3,
-        q7_4: p7Data4,
-        q7_5: p7Data5,
-        q7_6: p7Data6,
-        q7_7: p7Data7,
-        q7_8: p7Data8,
-        q7_9: p7Data9,
-        q7_10: p7Data10,
-        q7_11: p7Data11,
-        q7_12: p7Data12,
-        q7_13: p7Data13,
-        q7_14: p7Data14,
-        q7_15: p7Data15,
-        q7_16: p7Data16,
-        q8_1: p8Data1,
-        q8_2: p8Data2
+        
+        Account_id: "Dummy3",
+        Gender: "女性",
+        Prefectures: "神奈川県",
+        Created_data: today,
+        Question_1_1: p1Data1,
+        Question_1_2: p1Data2,
+        Question_1_3: p1Data3,
+        Question_2: p2Data,
+        Question_3_1: p3Data1,
+        Question_3_2: p3Data2,
+        Question_3_3: p3Data3,
+        Question_3_4: p3Data4,
+        Question_3_5: p3Data5,
+        Question_3_6: p3Data6,
+        Question_4: p4Data,
+        Question_5_1: p5Data1,
+        Question_5_2: p5Data2,
+        Question_5_3: p5Data3,
+        Question_5_4: p5Data4,
+        Question_5_5: p5Data5,
+        Question_5_6: p5Data6,
+        Question_5_7: p5Data7,
+        Question_5_8: p5Data8,
+        Question_5_9: p5Data9,
+        Question_5_10: p5Data10,
+        Question_6: p6Data,
+        Question_7_1: p7Data1,
+        Question_7_2: p7Data2,
+        Question_7_3: p7Data3,
+        Question_7_4: p7Data4,
+        Question_7_5: p7Data5,
+        Question_7_6: p7Data6,
+        Question_7_7: p7Data7,
+        Question_7_8: p7Data8,
+        Question_7_9: p7Data9,
+        Question_7_10: p7Data10,
+        Question_7_11: p7Data11,
+        Question_7_12: p7Data12,
+        Question_7_13: p7Data13,
+        Question_7_14: p7Data14,
+        Question_7_15: p7Data15,
+        Question_7_16: p7Data16,
+        Question_8_1: p8Data1,
+        Question_8_2: p8Data2
       }  
     }));  
   }
   
   return (
-    <div class = "main">
+    <div class = "queries">
       <form onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
         <Header />
-          <body>
+          <body class="smile">
           {
             status == 1 ? <Page1 setP1Select = {setP1Select} 
               p1Data1 = {p1Data1} setP1Data1 = {setP1Data1} 
@@ -250,3 +309,5 @@ export function App() {
     console.log(p5Select)
     
   }, [p5Select]); */
+
+  // Version:
